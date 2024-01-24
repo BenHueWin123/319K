@@ -24,13 +24,13 @@ Phase:  .long 1 // 0 for info, 1-6 for debug, 10 for grade
 // If your function calls another function, you must save/restore LR
 Lab1: PUSH {R4-R7,LR}
        // your solution goes here
-			LDR R1, =myClass
+LDR R1, =myClass
 			LDR R2, [R1]
 			LDR R3, [R2]
+			CMP R3, #0
 			BEQ	Null
-			LDR R4, =myEID
+			LDR R4, =EID
 			LDR R5, [R4]
-			LDR R6, [R5]
 
 StrCmp:		CMP R3, R6
 			BNE NxtStr
@@ -39,7 +39,8 @@ StrCmp:		CMP R3, R6
 NxtStr:		ADDS R0, R0, #1
 			ADDS R1, R1, #4
 			LDR R2, [R1]
-			LDR R3, [R2]
+			LDRB R3, [R2]
+			CMP R3, #0
 			BEQ Done			//If the list is Null
 			B StrCmp
 
@@ -65,9 +66,6 @@ pWFW979:	.string "WFW979"
 pBH42399:	.string "BH42399"
 pBH32399:	.string "BH32399"
 
-myEID:		.long myBH32399
-
-myBH32399:	.string "BH32399"
 
 
       POP  {R4-R7,PC} // return
