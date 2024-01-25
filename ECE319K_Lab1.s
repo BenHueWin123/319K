@@ -25,23 +25,25 @@ Phase:  .long 1 // 0 for info, 1-6 for debug, 10 for grade
 Lab1: PUSH {R4-R7,LR}
        // your solution goes here
 LdStr:
-		LDR R1, =EID //Grab EID
-		LDR R2, [R0]
+		LDR R1, =EID //Grab EID Pointer
+		LDR R2, [R0]	//Grab List
 		CMP R2, #0	//Checking if the list is empty
 		BEQ Empty
 
-NxtChr:	
-		LDRB R3, [R1]
+LdChr:	
+		LDRB R3, [R1]	//Load my EID
 		LDRB R4, [R2]
+		CMP R3, #0	//Checking if it is the end of EID
+		BEQ LdCounter
 		CMP R4, #0	//Checks to see if the string ended
-		BEQ NxtStr
+		BEQ Empty
 
 ChkChr: 
 		CMP R3, R4
 		BNE NxtStr
-		ADDS R1, R1, #1
-		ADDS R2, R2, #1
-		B NxtChr
+		ADDS R1, R1, #1	//Increments next character of EID
+		ADDS R2, R2, #1	//Increments next character of List
+		B LdChr
 
 NxtStr: 
 		ADDS R5, R5, #1	//Array Counter
@@ -52,6 +54,9 @@ Empty:
 		MOVS R0, #0
 		ADDS R0, R0 xFF
 		B Finish
+
+LdCounter:
+		MOVS R0, R5	//Move counter from R5 to R0
 
 Finish:
       POP  {R4-R7,PC} // return
