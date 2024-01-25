@@ -24,50 +24,32 @@ Phase:  .long 1 // 0 for info, 1-6 for debug, 10 for grade
 // If your function calls another function, you must save/restore LR
 Lab1: PUSH {R4-R7,LR}
        // your solution goes here
-LDR R1, =myClass
-			LDR R2, [R1]
-			LDR R3, [R2]
-			CMP R3, #0
-			BEQ	Null
-			LDR R4, =EID
-			LDR R5, [R4]
+LdStr:
+		LDR R1, =EID //Grab EID
+		LDR R2, [R0]
+		CMP R2, #0	//Checking if the list is empty
+		BEQ Empty
 
-StrCmp:		CMP R3, R6
-			BNE NxtStr
-			BEQ Done
+NxtChr:	LDRB R3, [R1]
+		LDRB R4, [R2]
+		CMP R4, #0	//Checks to see if the string ended
+		BEQ NxtStr
 
-NxtStr:		ADDS R0, R0, #1
-			ADDS R1, R1, #4
-			LDR R2, [R1]
-			LDRB R3, [R2]
-			CMP R3, #0
-			BEQ Done			//If the list is Null
-			B StrCmp
+ChkChr: CMP R3, R4
+		BNE NxtStr
+		ADDS R1, R1, #1
+		ADDS R2, R2, #1
+		B NxtChr
 
+NxtStr: ADDS R5, R5, #1	//Array Counter
+		ADDS R0, R0, #8 //Goes to the next Pointer
+		B LdStr
+		
+Empty: 	MOVS R0, #0
+		ADDS R0, R0 xFF
+		B Finish
 
-Null:		ADDS R0, R0, #0xFF
-			BX LR
-
-Done:		BX LR
-
-
-			.text
-			.align 2
-myClass:	.long pXB174	//Pointer to EID
-			.long pDD85618	//Pointer to EID
-			.long pWFW979	//Pointer to EID
-			.long pBH42399	//Pointer to EID
-			.long pBH32399	//Pointer to EID
-			.long 0			//Null Pointer
-			.long 0
-pXB174:		.string "XB174"
-pDD85618:	.string "DD85618"
-pWFW979:	.string "WFW979"
-pBH42399:	.string "BH42399"
-pBH32399:	.string "BH32399"
-
-
-
+Finish:
       POP  {R4-R7,PC} // return
 
 
