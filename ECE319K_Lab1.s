@@ -26,7 +26,7 @@ Lab1: PUSH {R4-R7,LR}
        // your solution goes here
 LdStr:
 		LDR R1, =EID //Grab EID Pointer
-		LDR R2, [R0]	//Grab List
+		LDR R2, [R0]	//Grab List Pointer
 		CMP R2, #0	//Checking if the list is empty
 		BEQ Empty
 
