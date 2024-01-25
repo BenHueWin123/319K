@@ -30,22 +30,26 @@ LdStr:
 		CMP R2, #0	//Checking if the list is empty
 		BEQ Empty
 
-NxtChr:	LDRB R3, [R1]
+NxtChr:	
+		LDRB R3, [R1]
 		LDRB R4, [R2]
 		CMP R4, #0	//Checks to see if the string ended
 		BEQ NxtStr
 
-ChkChr: CMP R3, R4
+ChkChr: 
+		CMP R3, R4
 		BNE NxtStr
 		ADDS R1, R1, #1
 		ADDS R2, R2, #1
 		B NxtChr
 
-NxtStr: ADDS R5, R5, #1	//Array Counter
+NxtStr: 
+		ADDS R5, R5, #1	//Array Counter
 		ADDS R0, R0, #8 //Goes to the next Pointer
 		B LdStr
 		
-Empty: 	MOVS R0, #0
+Empty: 	
+		MOVS R0, #0
 		ADDS R0, R0 xFF
 		B Finish
 
