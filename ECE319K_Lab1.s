@@ -15,7 +15,7 @@
 EID:    .string "BH32399" // replace ZZZ123 with your EID here
         .align 2
         .global Phase
-Phase:  .long 1 // 0 for info, 1-6 for debug, 10 for grade
+Phase:  .long 10 // 0 for info, 1-6 for debug, 10 for grade
 
         .global Lab1
 // Input: R0 points to the list
@@ -27,10 +27,11 @@ Lab1: PUSH {R4-R7,LR}
 LdStr:
 		LDR R1, =EID //Grab EID Pointer
 		LDR R2, [R0]	//Grab List Pointer
+		ADDS R5, R5, #1	//Array Counter
 		CMP R2, #0	//Checking if the list is empty
 		BEQ Empty
 
-LdChr:	
+LdChr:
 		LDRB R3, [R1]	//Load my EID
 		LDRB R4, [R2]
 		CMP R3, #0	//Checking if it is the end of EID
@@ -38,21 +39,20 @@ LdChr:
 		CMP R4, #0	//Checks to see if the string ended
 		BEQ Empty
 
-ChkChr: 
+ChkChr:
 		CMP R3, R4
 		BNE NxtStr
 		ADDS R1, R1, #1	//Increments next character of EID
 		ADDS R2, R2, #1	//Increments next character of List
 		B LdChr
 
-NxtStr: 
-		ADDS R5, R5, #1	//Array Counter
+NxtStr:
 		ADDS R0, R0, #8 //Goes to the next Pointer
 		B LdStr
-		
-Empty: 	
+
+Empty:
 		MOVS R0, #0
-		ADDS R0, R0 xFF
+		SUBS R0, R0, #1
 		B Finish
 
 LdCounter:
